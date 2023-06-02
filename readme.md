@@ -19,13 +19,13 @@ cd keycloak-observability
 podman build -t keycloak-observability -f Containerfile
 
 podman create network net1
-podman create pod keycloak-pod
-podman create pod prometheus-pod
-podman create pod grafana-pod
+podman pod create -p 8181:8080 --network podman keycloak-pod
+podman pod create -p 9191:9090 --network podman prometheus-pod
+podman pod create -p 3131:3000 --network podman grafana-pod
 
-podman run --name keycloak -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -d --network net1 --pod keycloak-pod -p 8181:8080 localhost/keycloak-observability start-dev --metrics-enabled=true
-podman run --name prometheus -d --network net1 --pod new:prometheus-pod -p 9191:9090 -v $(pwd)/prometheus-config.yaml:/etc/prometheus/prometheus.yml quay.io/prometheus/prometheus:v2.44.0
-podman run --name grafana -d -it -p 3131:3000 --network net1 --pod grafana-pod grafana/grafana:9.5.2
+podman run --name keycloak -d --pod keycloak-pod -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin localhost/keycloak-observability start-dev --metrics-enabled=true
+podman run --name prometheus -d --pod prometheus-pod -v $(pwd)/prometheus-config.yaml:/etc/prometheus/prometheus.yml quay.io/prometheus/prometheus:v2.44.0
+podman run --name grafana -d --pod grafana-pod grafana/grafana:9.5.2
 ```
 
 
