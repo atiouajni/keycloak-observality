@@ -27,7 +27,9 @@ podman run --name keycloak -d --pod keycloak-pod -e KEYCLOAK_ADMIN=admin -e KEYC
 podman run --name prometheus -d --pod prometheus-pod -v $(pwd)/prometheus-config.yaml:/etc/prometheus/prometheus.yml quay.io/prometheus/prometheus:v2.44.0
 podman run --name grafana -d --pod grafana-pod grafana/grafana:9.5.2
 ```
+
 2. **Enable Metrics event listener**
+
 ```
 podman exec -it keycloak /bin/bash
 cd /opt/keycloak/bin
@@ -39,8 +41,6 @@ cd /opt/keycloak/bin
 
    - Open a browser and access the URL `http://localhost:9191` to access the Prometheus interface.
    - Select 'Status' > 'Targets' and check the endpoint `http://keycloak-pod:8080/realms/master/metrics`is `UP`.
-
-   [Endpoint status UP](/img/2023-05-28/status_endpoint_up.png)
 
 3. **Access to Keycloak observability**
 
