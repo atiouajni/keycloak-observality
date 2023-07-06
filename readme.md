@@ -1,6 +1,8 @@
 ## Extending Keycloak's Functionality with Observability Metrics using an SPI
 
-In this post, I will explore how to use this SPI to add observability metrics to Keycloak and display them in Grafana. We will use Podman to deploy each application in a separate container : 
+I will explore how to use this SPI to add observability metrics to Keycloak and display them in Grafana. I will use Podman to deploy each application in a separate container.
+
+Technologies used are :
 
  - Keycloak 21.0.2
  - Prometheus
